@@ -1,3 +1,5 @@
+//TO DO: fix add/remove reactions. fix remove friend
+
 const express = require('express');
 const mongoose = require('mongoose');
 
