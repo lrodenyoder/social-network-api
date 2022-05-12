@@ -70,15 +70,26 @@ const thoughtController = {
 
     //delete thought
     deleteThought({ params }, res) {
-        console.log(params);
+        console.log(params, "LOOK HERE");
         Thought.findOneAndDelete({ _id: params.thoughtId })
-        .then((dbThoughtData) => {
-            if(!dbThoughtData) {
+        .then((deletedThought) => {
+            if(!deletedThought) {
                 res.status(404).json({message: "Thought not found"});
                 return;
             }
-            res.json(dbThoughtData)
+            return User.findOneAndUpdate(
+              { _id: params.userId },
+              { $pull: { thoughts: params.thoughtId } },
+              { new: true }
+            );
         })
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: "User not found" });
+                    return;
+                }
+                res.json(dbUserData);
+            })
         .catch((err) => res.status(400).json(err));
     },
 
