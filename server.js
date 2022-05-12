@@ -11,7 +11,7 @@ app.use(express.static('public'));;
 app.use(require('./routes'));
 
 mongoose.connect(
-    process.env.MONGODB_URI || "mongodb://localhost:27017/MODULE18",
+    process.env.MONGODB_URI || "mongodb://localhost:27017/module-18-challenge-submission",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
