@@ -15,9 +15,7 @@ const thoughtController = {
 
     //get one thought by id
     getThoughtById({ params }, res) {
-        console.log(params);
         Thought.findOne({ _id: params.thoughtId })
-        // .select("-__v")
         .then((dbThoughtData) => {
             if(!dbThoughtData) {
                 res.status(404).json({message: "Thought not found"});
@@ -32,9 +30,22 @@ const thoughtController = {
     },
 
     //create new thought
-    createThought({body}, res) {
+    createThought({params, body}, res) {
         Thought.create(body)
-        .then((dbThoughtData) => res.json(dbThoughtData))
+            .then(({ _id }) => {
+                return User.findOneAndUpdate(
+                    { _id: params.userId },
+                    { $push: { thoughts: _id } },
+                    { new: true }
+                );
+            })
+            .then((dbThoughtData) => {
+                if (!dbThoughtData) {
+                    res.status(404).json({ message: "Thought not found" });
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
         .catch((err) => {
             console.log(err);
             res.status(400).json(err);
@@ -42,8 +53,8 @@ const thoughtController = {
     },
 
     //update thought by id
-    updateThought({params, body}, res) {
-        Thought.findOneAndUpdate({ _id: params.id }, body, {new: true})
+    updateThought({ params, body }, res) {
+        Thought.findOneAndUpdate({ _id: params.thoughtId }, body, {new: true})
         .then((dbThoughtData) => {
             if(!dbThoughtData) {
                 res.status(404).json({message: "Thought not found"});
@@ -58,8 +69,9 @@ const thoughtController = {
     },
 
     //delete thought
-    deleteThought({params}, res) {
-        Thought.findOneAndDelete({ _id: params.id })
+    deleteThought({ params }, res) {
+        console.log(params);
+        Thought.findOneAndDelete({ _id: params.thoughtId })
         .then((dbThoughtData) => {
             if(!dbThoughtData) {
                 res.status(404).json({message: "Thought not found"});
