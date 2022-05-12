@@ -9,7 +9,7 @@
 
 This project is a RESTfully structured API using the NoSQL database, MongoDB. Users are able to create a use on the website, create Thoughts (similar to posts), as well as Reactions to thoughts (similar to replies/comments). Users are also able to update and delete their accounts, thoughts and reactions.
 
-[Click Here]("https://drive.google.com/file/d/1TpmLUiQBLYoi6oeM50dLySzhgJsdf0Mh/view") for a video walkthgouth on the functionality of the backend.
+[Click Here](https://drive.google.com/file/d/1TpmLUiQBLYoi6oeM50dLySzhgJsdf0Mh/view) for a video walkthgouth on the functionality of the backend.
 
 ## License
 
